@@ -51,4 +51,11 @@ ENV SPARK_HOME /opt/spark
 
 WORKDIR /opt/spark/work-dir
 
+# add the following two lines before ENTRYPOINT
+RUN rm $SPARK_HOME/jars/kubernetes-client-*.jar
+RUN rm $SPARK_HOME/jars/guava-14.0.1.jar
+ADD https://repo1.maven.org/maven2/io/fabric8/kubernetes-client/4.4.2/kubernetes-client-4.4.2.jar $SPARK_HOME/jars
+ADD https://repo1.maven.org/maven2/com/google/guava/guava/23.0/guava-23.0.jar $SPARK_HOME/jars
+RUN cp /lib/ld-musl-x86_64.so.1 /lib/ld-linux-x86-64.so.2
+
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
